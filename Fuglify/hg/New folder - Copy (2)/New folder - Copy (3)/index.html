@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LocalBites</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Inter', -apple-system, 'Roboto', sans-serif;
+        }
+
+        body {
+            background: #f7f9fc;
+            padding: 24px 20px 48px;
+            color: #1e2a3e;
+        }
+
+        .app-container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .brand h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2b6e4f, #1e4a76);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .brand p {
+            color: #4b5563;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            margin-bottom: 30px;
+        }
+
+        .store-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .store-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 36px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-logo {
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 28px 20px;
+            min-height: 140px;
+        }
+
+        .card-logo img {
+            max-width: 110px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .card-info {
+            padding: 20px 18px 24px;
+            text-align: center;
+        }
+
+        .card-info h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-info .cuisine {
+            color: #2c7a4d;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .order-btn-badge {
+            display: inline-block;
+            margin-top: 16px;
+            background: #2b6e4f;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .products-panel {
+            background: white;
+            border-radius: 36px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            margin-top: 20px;
+            padding: 24px 28px 32px;
+            border: 1px solid #eef2f6;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 2px solid #e9edf2;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .panel-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: #2c6e9e;
+            cursor: pointer;
+            background: #eef2ff;
+            padding: 8px 18px;
+            border-radius: 50px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: #fefefe;
+            border-radius: 24px;
+            padding: 16px;
+            border: 1px solid #edf2f7;
+        }
+
+        .product-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .product-price {
+            color: #1f6e43;
+            font-weight: 700;
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 14px 0 8px;
+        }
+
+        .qty-control button {
+            background: #eef2f6;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 40px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .qty-control span {
+            font-weight: 700;
+            font-size: 1.2rem;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .order-summary {
+            background: #f8fafc;
+            border-radius: 28px;
+            padding: 22px 28px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+
+        .grand-total {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #0f3b2c;
+            border-top: 2px dashed #cbd5e1;
+            padding-top: 14px;
+            margin-top: 12px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 14px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .clear-cart-btn,
+        .payment-btn,
+        .whatsapp-btn {
+            padding: 16px 24px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 60px;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+            flex: 1;
+            min-width: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .clear-cart-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .clear-cart-btn:hover {
+            background: #dc2626;
+        }
+
+        .payment-btn {
+            background: #1e40af;
+            color: white;
+        }
+
+        .payment-btn:hover {
+            background: #1e3a8a;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20b859;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #eef2f6;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .payment-option {
+            padding: 16px;
+            border: 2px solid #eef2f6;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .payment-option:hover {
+            border-color: #2b6e4f;
+            background: #f0fdf4;
+        }
+
+        .payment-option.selected {
+            border-color: #2b6e4f;
+            background: #f0fdf4;
+        }
+
+        .bank-details {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 16px;
+            margin-top: 16px;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: #2b6e4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .confirm-payment {
+            background: #2b6e4f;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: #6c7a8e;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 16px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="brand">
+            <h1>🍽️ BiteDash</h1>
+            <p>Pick a store · Build your cart · Pay & Share</p>
+            <p>Please note that the delivery fee does not include a tip for the driver, Too tip your driver add the Tip amount too the order total when completing payment and it will be allocated to
+                the driver</p>
+        </div>
+
+        <div id="storesSection">
+            <div class="stores-grid" id="storesGrid"></div>
+        </div>
+
+        <div id="orderPanel" class="products-panel hidden">
+            <div class="panel-header">
+                <h2><span id="currentStoreLogo">🏪</span> <span id="currentStoreName"></span></h2>
+                <button class="back-btn" id="backToStoresBtn">← Back to stores</button>
+            </div>
+            <div id="productsContainer" class="products-grid"></div>
+            <div id="orderSummaryContainer" class="order-summary"></div>
+        </div>
+
+        <footer>✅ Share order via WhatsApp — Order will be Processed after payment received - Contact for any questions</footer>
+    </div>
+
+
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💳Complete Payment</h2>
+                <button class="close-modal" onclick="closePaymentModal()">&times;</button>
+            </div>
+            <div id="paymentModalBody">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+       
+       const _0x67b138 = _0x2c5c; (function (_0x4f5370, _0x28fae7) { const _0x569286 = { _0x4121fa: 0x265, _0x561746: 0x25b, _0x4f6010: 0x223, _0x196fa3: 0x21c, _0xc13de1: 0x25d }, _0xdb3c27 = _0x2c5c, _0x190559 = _0x4f5370(); while (!![]) { try { const _0x574e2d = -parseInt(_0xdb3c27(_0x569286._0x4121fa)) / (-0x3d7 * 0x1 + -0x1fc * 0xd + 0x769 * 0x4) * (-parseInt(_0xdb3c27(0x240)) / (0x107 + 0x23b6 + -0x24bb)) + parseInt(_0xdb3c27(0x1ea)) / (0x6a * -0x6 + -0x18a0 + 0x1 * 0x1b1f) * (-parseInt(_0xdb3c27(_0x569286._0x561746)) / (0x11ee + 0xa * 0x62 + -0x15be)) + -parseInt(_0xdb3c27(_0x569286._0x4f6010)) / (0x5ab * 0x1 + 0x10c7 * 0x1 + -0x166d) * (-parseInt(_0xdb3c27(0x1e2)) / (0x172 * -0x2 + -0x153b * 0x1 + -0x1 * -0x1825)) + parseInt(_0xdb3c27(0x1fd)) / (0x39a * -0x2 + -0x1 * -0x1843 + 0x8 * -0x221) + -parseInt(_0xdb3c27(_0x569286._0x196fa3)) / (-0x2218 + 0x97 * 0x16 + 0x1526) + -parseInt(_0xdb3c27(0x21d)) / (0x11 * 0x4c + -0x207a * -0x1 + -0x7 * 0x55b) * (parseInt(_0xdb3c27(0x1c8)) / (-0x26df + -0x65b * 0x3 + -0x1cfd * -0x2)) + parseInt(_0xdb3c27(0x262)) / (0x3f * -0x18 + -0xedf + 0x14d2) * (parseInt(_0xdb3c27(_0x569286._0xc13de1)) / (0x43 * 0x41 + -0x146c + -0x5 * -0xb1)); if (_0x574e2d === _0x28fae7) break; else _0x190559['push'](_0x190559['shift']()); } catch (_0x5b116d) { _0x190559['push'](_0x190559['shift']()); } } }(_0x1cc2, -0x1 * 0x33842 + 0x1dee4 * 0x1 + 0x30451)); const _0xd52bc2 = {}; _0xd52bc2['id'] = 'p1', _0xd52bc2[_0x67b138(0x23f)] = _0x67b138(0x217), _0xd52bc2[_0x67b138(0x246)] = 89.99; const _0x4d8877 = {}; _0x4d8877['id'] = 'p2', _0x4d8877[_0x67b138(0x23f)] = _0x67b138(0x206), _0x4d8877[_0x67b138(0x246)] = 109.99; const _0x2be60e = {}; _0x2be60e['id'] = 'p3', _0x2be60e[_0x67b138(0x23f)] = _0x67b138(0x1c6), _0x2be60e[_0x67b138(0x246)] = 35.99; const _0x2c6b4f = {}; _0x2c6b4f['id'] = 'p4', _0x2c6b4f[_0x67b138(0x23f)] = _0x67b138(0x226), _0x2c6b4f[_0x67b138(0x246)] = 45.99; const _0x13c3ba = {}; _0x13c3ba['id'] = _0x67b138(0x1c5), _0x13c3ba[_0x67b138(0x23f)] = _0x67b138(0x1f0), _0x13c3ba[_0x67b138(0x1ce)] = _0x67b138(0x1cd), _0x13c3ba[_0x67b138(0x1e5)] = _0x67b138(0x253), _0x13c3ba[_0x67b138(0x207)] = _0x67b138(0x1e1), _0x13c3ba[_0x67b138(0x263)] = 0x32, _0x13c3ba['products'] = [_0xd52bc2, _0x4d8877, _0x2be60e, _0x2c6b4f]; const _0x243857 = {}; _0x243857['id'] = 's1', _0x243857[_0x67b138(0x23f)] = _0x67b138(0x235), _0x243857['price'] = 85.99; const _0x4bedda = {}; _0x4bedda['id'] = 's2', _0x4bedda['name'] = _0x67b138(0x202), _0x4bedda[_0x67b138(0x246)] = 95.99; const _0x15ec72 = {}; _0x15ec72['id'] = 's3', _0x15ec72[_0x67b138(0x23f)] = _0x67b138(0x23a), _0x15ec72[_0x67b138(0x246)] = 29.99; const _0x398244 = {}; _0x398244['id'] = 's4', _0x398244[_0x67b138(0x23f)] = 'Edamame', _0x398244[_0x67b138(0x246)] = 35.99; const _0x335fd1 = {}; _0x335fd1['id'] = _0x67b138(0x1d4), _0x335fd1['name'] = _0x67b138(0x1d5), _0x335fd1['logo'] = 'https://cdn-icons-png.flaticon.com/512/2921/2921222.png', _0x335fd1[_0x67b138(0x1e5)] = _0x67b138(0x204), _0x335fd1['description'] = _0x67b138(0x213), _0x335fd1[_0x67b138(0x263)] = 0x32, _0x335fd1['products'] = [_0x243857, _0x4bedda, _0x15ec72, _0x398244]; const _0x1bbcc0 = {}; _0x1bbcc0['id'] = 'b1', _0x1bbcc0[_0x67b138(0x23f)] = _0x67b138(0x24a), _0x1bbcc0[_0x67b138(0x246)] = 69.99; const _0x428d4d = {}; _0x428d4d['id'] = 'b2', _0x428d4d[_0x67b138(0x23f)] = _0x67b138(0x245), _0x428d4d[_0x67b138(0x246)] = 89.99; const _0x358ce0 = {}; _0x358ce0['id'] = 'b3', _0x358ce0[_0x67b138(0x23f)] = _0x67b138(0x242), _0x358ce0[_0x67b138(0x246)] = 45.99; const _0x4014ff = {}; _0x4014ff['id'] = 'b4', _0x4014ff[_0x67b138(0x23f)] = _0x67b138(0x241), _0x4014ff[_0x67b138(0x246)] = 39.99; const _0x2e43a6 = {}; _0x2e43a6['id'] = _0x67b138(0x26b), _0x2e43a6[_0x67b138(0x23f)] = _0x67b138(0x238), _0x2e43a6[_0x67b138(0x1ce)] = _0x67b138(0x1ee), _0x2e43a6['cuisine'] = _0x67b138(0x1d3), _0x2e43a6[_0x67b138(0x207)] = 'Juicy\x20burgers,\x20crispy\x20fries\x20&\x20shakes', _0x2e43a6[_0x67b138(0x263)] = 0x32, _0x2e43a6[_0x67b138(0x221)] = [_0x1bbcc0, _0x428d4d, _0x358ce0, _0x4014ff]; const _0x2153dc = {}; _0x2153dc['id'] = 'g1', _0x2153dc['name'] = _0x67b138(0x1f8), _0x2153dc[_0x67b138(0x246)] = 89.99; const _0x4a8c65 = {}; _0x4a8c65['id'] = 'g2', _0x4a8c65[_0x67b138(0x23f)] = _0x67b138(0x1d0), _0x4a8c65[_0x67b138(0x246)] = 65.99; const _0x2dd1f3 = {}; _0x2dd1f3['id'] = 'g3', _0x2dd1f3[_0x67b138(0x23f)] = 'Berry\x20Smoothie', _0x2dd1f3[_0x67b138(0x246)] = 55.99; const _0x120567 = {}; _0x120567['id'] = 'g4', _0x120567[_0x67b138(0x23f)] = _0x67b138(0x22d), _0x120567[_0x67b138(0x246)] = 75.99; const _0x246afe = {}; _0x246afe['id'] = _0x67b138(0x203), _0x246afe[_0x67b138(0x23f)] = _0x67b138(0x216), _0x246afe[_0x67b138(0x1ce)] = _0x67b138(0x254), _0x246afe['cuisine'] = _0x67b138(0x243), _0x246afe[_0x67b138(0x207)] = _0x67b138(0x20e), _0x246afe[_0x67b138(0x263)] = 0x32, _0x246afe['products'] = [_0x2153dc, _0x4a8c65, _0x2dd1f3, _0x120567]; const storesData = [_0x13c3ba, _0x335fd1, _0x2e43a6, _0x246afe], _0x1ec757 = {}; _0x1ec757['bankName'] = _0x67b138(0x1dc), _0x1ec757[_0x67b138(0x232)] = _0x67b138(0x1d1), _0x1ec757[_0x67b138(0x1f2)] = _0x67b138(0x1df), _0x1ec757[_0x67b138(0x233)] = '470010', _0x1ec757['accountType'] = _0x67b138(0x249), _0x1ec757[_0x67b138(0x1fe)] = _0x67b138(0x236); const BANK_DETAILS = _0x1ec757; let activeStoreId = null, carts = {}, currentGrandTotal = -0x532 * -0x6 + -0xabb + -0x1471, currentSelectedItems = []; const STORAGE_ACTIVE_STORE = _0x67b138(0x200), STORAGE_CARTS = _0x67b138(0x248); function saveToLocalStorage() { const _0x4b41f4 = { _0xcd9a18: 0x234, _0x558451: 0x24d }, _0x2c3b4d = _0x67b138; if (activeStoreId) localStorage[_0x2c3b4d(0x260)](STORAGE_ACTIVE_STORE, activeStoreId); else localStorage[_0x2c3b4d(_0x4b41f4._0xcd9a18)](STORAGE_ACTIVE_STORE); localStorage[_0x2c3b4d(0x260)](STORAGE_CARTS, JSON[_0x2c3b4d(_0x4b41f4._0x558451)](carts)); } function loadFromLocalStorage() { const _0x3f296f = { _0x4e0d7d: 0x1d9, _0x2e118e: 0x1c0 }, _0x35e5ef = { _0x36e8a9: 0x1f4 }, _0x176f52 = _0x67b138, _0x1c8770 = localStorage[_0x176f52(_0x3f296f._0x4e0d7d)](STORAGE_CARTS); if (_0x1c8770) try { const _0x507c23 = JSON[_0x176f52(_0x3f296f._0x2e118e)](_0x1c8770); for (let _0x596e00 of storesData) { if (!_0x507c23[_0x596e00['id']]) _0x507c23[_0x596e00['id']] = {}; _0x596e00[_0x176f52(0x221)]['forEach'](_0x1cf2a3 => { const _0x169213 = _0x176f52; if (typeof _0x507c23[_0x596e00['id']][_0x1cf2a3['id']] !== _0x169213(_0x35e5ef._0x36e8a9)) _0x507c23[_0x596e00['id']][_0x1cf2a3['id']] = 0x176c + -0x1e93 + 0x1 * 0x727; }); } carts = _0x507c23; } catch (_0x22fa04) { initCarts(); } else initCarts(); const _0x307e34 = localStorage['getItem'](STORAGE_ACTIVE_STORE); if (_0x307e34 && storesData[_0x176f52(0x1c3)](_0x3d2048 => _0x3d2048['id'] === _0x307e34)) activeStoreId = _0x307e34; else activeStoreId = null; } function initCarts() { const _0x2c92c2 = { _0x16e404: 0x221 }, _0x139580 = _0x67b138; carts = {}; for (let _0x5794cb of storesData) { carts[_0x5794cb['id']] = {}, _0x5794cb[_0x139580(_0x2c92c2._0x16e404)]['forEach'](_0x3922f5 => { carts[_0x5794cb['id']][_0x3922f5['id']] = -0x197e + -0x449 * 0x2 + -0x1108 * -0x2; }); } } const storesGrid = document[_0x67b138(0x1da)](_0x67b138(0x1e9)), orderPanel = document[_0x67b138(0x1da)](_0x67b138(0x251)), productsContainer = document[_0x67b138(0x1da)](_0x67b138(0x1d7)), orderSummaryContainer = document[_0x67b138(0x1da)](_0x67b138(0x20f)), backToStoresBtn = document[_0x67b138(0x1da)]('backToStoresBtn'), currentStoreNameSpan = document[_0x67b138(0x1da)](_0x67b138(0x1c4)), currentStoreLogoSpan = document[_0x67b138(0x1da)](_0x67b138(0x1e8)), storesSection = document[_0x67b138(0x1da)](_0x67b138(0x1db)); function _0x1cc2() { const _0x3e408f = ['y2fYza', 'uxvPBM9HifbVD2vYiejVD2W', 'cIaGicaGicaGicaGidXWihn0EwXLpsjTyxjNAw4TyM90Dg9ToIaYmhb4oYi+phn0CM9UzZ5uB3rHBcb0BYbWyxK6pc9ZDhjVBMC+idXZCgfUihn0EwXLpsjMB250lxnPEMu6idi0ChG7ignVBg9YoIaJmMi2ztrMoYi+uG', 'cGRINiuGkKDsqu5eifrpvefmoIbs', 'Cgf5BwvUDe1VzgfS', 'zMLUza', 'mti1ntyYnufnDg1qqq', 'CMvMzxjLBMnL', 'Aw5Uzxjive1m', 'yML0zwrHC2HFywn0AxzLx3n0B3jL', 'Aw5UzxjuzxH0', 'u2fSBw9Uie5Pz2LYAsaOnhbJCYK', 'z3jLzw5cB3DS', 'sMfWyw5LC2uG4OcIiezYzxnO', 'pgjYpGOGicaGicaGicaGicaGicaGicaGifjLzMvYzw5JztOG', 'ugvWCgvYB25PiezLyxn0', 'zgvZy3jPChrPB24', 'y2XPy2S', 'yMfUA05HBwu', 'CxvLCNLtzwXLy3rVCG', 'zMXVB3i', 'CMvWBgfJzq', 'y3vYCMvUDfrHCMDLDa', 'ug93zxiGyM93BhmSihnTB290AgLLCYaMihnHBgfKCW', 'B3jKzxjtDw1Tyxj5q29UDgfPBMvY', 'jMX0oW', 'ksi+8j+sSYbqCM9JzwvKihrVifbHEuzHC3q8l2j1DhrVBJ4kicaGicaGicaGicaGicaGicaGica8CcbZDhLSzt0IBwfYz2LUlxrVCdOGohb4oYbMB250lxnPEMu6ideYChG7iJ5uzxn0ienHCMq6idqXmteGmteXmsaXmteXideXmteGFcbfEha6iefUEsbMDxr1CMuGzgf0zsb8ienwvJOGmtiZpc9WpGOGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGia', 'jMD0oW', 'tMLNAxjPlcbnywTPicyGu2fZAgLTAsbIB3HLCW', 'lNbHEw1LBNqTB3b0Aw9U', 'y2XLyxjdyxj0qNrU', 'r3jLzw4GqM93Ba', 'twfYz2HLCML0ysbqAxP6yq', 'BgvUz3rO', 'cIaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjIyw5RlwrLDgfPBhmIpGOGicaGicaGicaGicaGicaGicaGidXZDhjVBMC+8j+tSsbty2fUihrVifbHEsaOu25HCfnJyw4Ppc9ZDhjVBMC+pgjYpGOGicaGicaGicaGicaGicaGicaGidXWpKzVCIbtBMfWu2nHBIWGDxnLignVzgu6idXZDhjVBMC+qKLururbu0G', 'pc9OmZ4kicaGicaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjJDwLZAw5LiJ4', 'y29WEujHBMTezxrHAwXZ', 'mtmXmJm0neHkBw1vBq', 'otaYodK4v0fOwvLA', 'C2nYB2XSvg8', '4PYfifbHEw1LBNqGB2yGuG', 'C2vSzwn0zwrqyxLTzw50twv0Ag9K', 'ChjVzhvJDhm', 'Bw9IAwXL', 'mtm4mtu1AKPTy2r4', 'CMvKAxjLy3ruB1bHEuzHC3q', 'x2jSyw5R', 'vgLYyw1PC3u', 'CMfUzg9T', 'iJ7IIji8l2j1DhrVBJ4kicaGicaGicaGicaGicaGicaGica8C3bHBIbJBgfZCZ0ICxr5lxzHBciGzgf0ys1Pzd0I', 'pgjYpGOGicaGicaGicaGicaGicaGicaGiejYyw5JAcbdB2rLoIa', 'yMvOyxzPB3i', 'pgrPDIbJBgfZCZ0IC3vTBwfYEs1YB3CIpUkCQcboBYbPDgvTCYbZzwXLy3rLzcdIGjqGywrKihbYB2r1y3rZigzYB20GywjVDMuG4PYOpc9KAxy+', 'pc9KAxy+cIaGicaGicaGicaGicaGicaGicaGpgrPDIbJBgfZCZ0IzgvZyYi+', 's2fSzsbtywXHza', 'Cgf5BwvUDej0BG', 'D2HHDhnHChbtAgfYzuj0BG', 'C3rVCMuTy2fYza', 'zM9YrwfJAa', 'ywnJB3vUDe5HBwu', 'yNjHBMnOq29Kzq', 'CMvTB3zLsxrLBq', 'q2fSAwzVCM5PysbsB2XSicG4CgnZkq', 'vvnfifLpvviGueHptKuGtLvnqKvsuW', 'C21VB3rO', 'qNvYz2vYieXHyG', 'Cxr5', 'twLZBYbtB3vW', 'y2XVC2vqyxLTzw50tw9KywW', 'Cgf5BwvUDe1VzgfSqM9KEq', 'zgL2', 'y3jLyxrLrwXLBwvUDa', 'BMfTzq', 'mJHHCwzeD00', 't3jLBYbtAgfRzq', 'tg9HzgvKiezYAwvZ', 'sgvHBhrOEsdIGkiGvMvNyw4', 'ugf5rMfZDcbPBNrLz3jHDgLVBIbYzwfKEs4GrM9YihbYB2r1y3rPB24SihnLDcb1CcbHifbHEuzHC3qGBwvYy2HHBNqGywnJB3vUDcbHBMqGyMfJA2vUzc4', 'qMfJB24GqKjriej1CMDLCG', 'ChjPy2u', 'Dg9gAxHLza', 'yML0zwrHC2HFy2fYDhm', 'qNvZAw5LC3mGqwnJB3vUDa', 'q2XHC3nPyYbdAgvLC2vIDxjNzxi', 'ywrKrxzLBNrmAxn0zw5LCG', 'pc9ZCgfUpGOGicaGicaGicaGicaGicaGicaGidXIDxr0B24Gy2XHC3m9iMLUy3iTyNrUiIbKyxrHlwLKpsi', 'C3rYAw5NAwz5', 'pgLTzYbZCMm9iG', 'kGOk8j+sSYaQifbSzwfZzsbWCMvWyxjLihrOAxmGB3jKzxiUifrOyw5RihLVDse', 'CMvTB3zL', 'B3jKzxjqyw5LBa', 'iJ4Rpc9IDxr0B24+cIaGicaGicaGicaGicaGica8l2rPDJ4kicaGicaGicaGicaG', 'sxrHBgLHBIdIGkiGv29VzgzPCMu', 'Ahr0Chm6lY9Jzg4TAwnVBNmTCg5NlMzSyxrPy29UlMnVBs81mtiVmJqXmY8YndeZmdeWlNbUzW', 'qMfUAZOG', 'yxbWzw5Kq2HPBgq', 'y2XHC3noyw1L', 'D3jPDgvuzxH0', 'C2vSzwn0ugf5BwvUDe1LDgHVza', 'CxvLCNLtzwXLy3rVCKfSBa', 'nZu2mdK2zfzZsMDp', 'C2vSzwn0zwq', 'mtjirfnRz0i', 'iIbHBhq9iG', 'id0GuG', 'C2v0sxrLBq', 'cIaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGica8zgL2ignSyxnZpsjZDw1Tyxj5lxjVDYi+phnWyw4+u3vIDg90ywW8l3nWyw4+phnWyw4+uG', 'mti1mdKYmeDKChrNwq', 'zgvSAxzLCNLgzwu', 'AgLKzgvU', 'mti2mdD2sg9zsuW', 'zMXLEa', 'ignVBMzPCM1Lzcb2AweG', 'pc9ZCgfUpJXZCgfUpLi', 'jMfTCdS', 'y2XHC3nmAxn0', 'yNvYz2vYtgfI', 'CgfYC2u', 'p3rLEhq9', 'Cgf5BwvUDerLDgfPBhm', 'C29Tzq', 'y3vYCMvUDfn0B3jLtMfTzq', 'CgL6EMfODwi', 'r2fYBgLJiejYzwfKC3rPy2TZ', 'ChvZAa', 'mJbxq0XZs3O', 'ugXLyxnLigfKzcbHDcbSzwfZDcbVBMuGAxrLBsbIzwzVCMuGC2HHCMLUzY4', 'ywrK', 'ksi+u2vUzcbWyxLTzw50ignVBMzPCM1HDgLVBIb0B28GwZaXmJm0nty3odL9idWVyNv0Dg9UpGOGicaGicaGia', 'AxrLBvrVDgfS', 'Ahr0Chm6lY9Jzg4TAwnVBNmTCg5NlMzSyxrPy29UlMnVBs81mtiVmta0nI8Xmdq2nZG0lNbUzW', 'Bg9NBW', 'y2XPCgjVyxjK', 'qxzVy2fKBYbuB2fZDa', 'ww91CIbcDxnPBMvZCYboyw1L', 'cKfJy291BNq6ia', 'qw1LCMLJyw4G4OcIieDYAwXSzwq', 'C3vZAgLr', 'u3vZAgKGuq', 'pgjYpGOGicaGicaGicaGicaGicaGicaGiefJy291BNqGtMfTztOG', 'ChjVzhvJDhndB250ywLUzxi', 'Dg9W', 'z2v0sxrLBq', 'z2v0rwXLBwvUDej5swq', 'C3rVCMvZu2vJDgLVBG', 'q2fWAxrLyYbcyw5R', 'cIaGicaGicaGicaGidXOmYbZDhLSzt0IBwfYz2LUlwjVDhrVBtOGmtjWEdSIpVcFP74Gww91CIbVCMrLCIbZDw1Tyxj5pc9OmZ4kicaGicaGicaGicaGpgrPDIbJBgfZCZ0IC3vTBwfYEs1PDgvTCYiGC3r5Bgu9iM1HCMDPBI1IB3r0B206ideYChG7iJ4kicaGicaGica', 'BM9Uzq', 'mtiZndu2nZG5ma', 'imoxia', 'qxv0AgvUDgLJihbPENPHCYWGCgfZDgfZicyGz2fYBgLJigjYzwfK', 'ndjbtejYq1m', 'Ahr0Chm6lY93ys5Tzs8', 'cIaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjWCM9KDwn0lxrPDgXLiJ4', 'y3vPC2LUzq', 'qMfUAYbKzxrHAwXZignVCgLLzcb0BYbJBgLWyM9HCMqH', 'iIbZDhLSzt0ID2LKDgG6idmYChG7igHLAwDODdOGmZjWEdSGB2jQzwn0lwzPDdOGy29UDgfPBJSGyM9YzgvYlxjHzgL1CZOGntaLoYi+', 'y3vYCMvUDfn0B3jLtg9NBW', 'C3rVCMvZr3jPza', 'm0vwu3LRAW', 'cIaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjJyxjKlwXVz28IpGOGicaGicaGicaGicaGicaGicaGidXPBwCGC3jJpsi', 'lMLUy3iTyNrUw2rHDgeTAwq9iG', 'zgLZCgXHEq', 'Ahr0Chm6lY9Jzg4TAwnVBNmTCg5NlMzSyxrPy29UlMnVBs81mtiVmZa3ns8ZmdC1otC3lNbUzW', 'pc9KAxy+cIaGicaGicaGicaGicaGicaGicaGpgrPDIbJBgfZCZ0IB3jKzxiTyNrUlwjHzgDLiJ7WN5oMig9YzgvYig5VDZWVzgL2pGOGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGia', 'ugL6EMeGshvI', 'C3r5Bgu', 'ywnJB3vUDe51BwjLCG', 'B3bLBG', 'BNvTyMvY', 'cIaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjIyw5RlwrLDgfPBhmIpGOGicaGicaGicaGicaGicaGicaGidXZDhjVBMC+8j+uKIbtzwn1CMuGq2fYzcbqyxLTzw50icHqyxLgyxn0ifrLC3qGtw9KzsK8l3n0CM9UzZ48yNi+cIaGicaGicaGicaGicaGicaGicaGpha+rM9YigrLBw8GChvYCg9ZzxmSifbHEuzHC3qGDgvZDcbLBNzPCM9UBwvUDcbPCYbHDMfPBgfIBguUpc9WpGOGicaGicaGicaGicaGicaGicaGidXIDxr0B24Gy2XHC3m9iMnVChKTyNrUiIbVBMnSAwnRpsjYzwrPCMvJDfrVugf5rMfZDcG', '4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4Psa4PsacVcFMPOGrgvSAxzLCNKGrMvLoIbs']; _0x1cc2 = function () { return _0x3e408f; }; return _0x1cc2(); } function renderStores() { const _0x12b920 = { _0x1228ba: 0x257, _0x12a36e: 0x230, _0x2dc677: 0x1ff, _0x30e920: 0x1eb, _0x4bf948: 0x22c, _0x143d42: 0x1ef, _0x439f53: 0x256 }, _0x11c6bf = _0x67b138; storesGrid[_0x11c6bf(0x1ff)] = '', storesData['forEach'](_0x169d50 => { const _0x3730d1 = _0x11c6bf, _0x194753 = document[_0x3730d1(0x23e)]('div'); _0x194753[_0x3730d1(_0x12b920._0x1228ba)] = _0x3730d1(_0x12b920._0x12a36e), _0x194753[_0x3730d1(_0x12b920._0x2dc677)] = _0x3730d1(_0x12b920._0x30e920) + _0x169d50[_0x3730d1(0x1ce)] + _0x3730d1(0x25e) + _0x169d50['name'] + '\x20logo\x22\x20onerror=\x22this.src=\x27https://cdn-icons-png.flaticon.com/512/1046/1046784.png\x27;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22card-info\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h3>' + escapeHtml(_0x169d50['name']) + _0x3730d1(0x21a) + escapeHtml(_0x169d50[_0x3730d1(0x1e5)]) + _0x3730d1(_0x12b920._0x4bf948) + escapeHtml(_0x169d50[_0x3730d1(0x207)]) + _0x3730d1(_0x12b920._0x143d42), _0x194753[_0x3730d1(0x24b)](_0x3730d1(0x208), () => openStore(_0x169d50['id'])), storesGrid[_0x3730d1(_0x12b920._0x439f53)](_0x194753); }); } function openStore(_0xece8a0) { const _0x3c5d46 = { _0x986306: 0x1fc, _0x17e844: 0x23f, _0x49ead5: 0x1e7, _0x37539a: 0x264, _0x2d0418: 0x250, _0x265645: 0x1d8, _0x381dcf: 0x22a }, _0x4e5fb0 = _0x67b138, _0x3d1453 = storesData[_0x4e5fb0(_0x3c5d46._0x986306)](_0x4f3d34 => _0x4f3d34['id'] === _0xece8a0); if (!_0x3d1453) return; activeStoreId = _0xece8a0, saveToLocalStorage(), currentStoreNameSpan[_0x4e5fb0(0x201)] = _0x3d1453[_0x4e5fb0(_0x3c5d46._0x17e844)], currentStoreLogoSpan['innerHTML'] = _0x4e5fb0(0x24e) + _0x3d1453[_0x4e5fb0(0x1ce)] + _0x4e5fb0(_0x3c5d46._0x49ead5), renderProductsAndCart(_0x3d1453), storesSection['classList']['add'](_0x4e5fb0(_0x3c5d46._0x37539a)), orderPanel[_0x4e5fb0(0x26a)][_0x4e5fb0(_0x3c5d46._0x2d0418)](_0x4e5fb0(_0x3c5d46._0x37539a)); const _0x39868f = {}; _0x39868f[_0x4e5fb0(_0x3c5d46._0x265645)] = 0x0, _0x39868f[_0x4e5fb0(_0x3c5d46._0x381dcf)] = _0x4e5fb0(0x237), window['scrollTo'](_0x39868f); } function renderProductsAndCart(_0xb162ca) { const _0x354c9f = { _0x4d3345: 0x1ff, _0x3fd0db: 0x231 }, _0x2627b8 = { _0x13d18c: 0x24b }, _0x468ded = { _0x3d733b: 0x257, _0x3239e4: 0x1ff, _0x384137: 0x246, _0x16b308: 0x247, _0x15de64: 0x228 }, _0x121c70 = _0x67b138, _0x538529 = carts[_0xb162ca['id']] || {}; productsContainer[_0x121c70(_0x354c9f._0x4d3345)] = '', _0xb162ca['products'][_0x121c70(0x231)](_0x31ad93 => { const _0xf10279 = _0x121c70, _0x50f92d = _0x538529[_0x31ad93['id']] || -0x203b * 0x1 + -0x1 * 0x226f + 0x42aa, _0x4d84b4 = document[_0xf10279(0x23e)](_0xf10279(0x23d)); _0x4d84b4[_0xf10279(_0x468ded._0x3d733b)] = 'product-card', _0x4d84b4[_0xf10279(_0x468ded._0x3239e4)] = _0xf10279(0x1e4) + escapeHtml(_0x31ad93['name']) + '</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22product-price\x22>R' + _0x31ad93[_0xf10279(_0x468ded._0x384137)][_0xf10279(_0x468ded._0x16b308)](0x1743 * 0x1 + 0x218d + 0x1c67 * -0x2) + '</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22qty-control\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22decr-btn\x22\x20data-id=\x22' + _0x31ad93['id'] + _0xf10279(_0x468ded._0x15de64) + _0x31ad93['id'] + '\x22>' + _0x50f92d + _0xf10279(0x24c) + _0x31ad93['id'] + _0xf10279(0x252), productsContainer[_0xf10279(0x256)](_0x4d84b4); }), _0xb162ca['products'][_0x121c70(_0x354c9f._0x3fd0db)](_0x350f26 => { const _0x15bdc2 = _0x121c70, _0x5e1ade = productsContainer[_0x15bdc2(0x20a)]('.decr-btn[data-id=\x22' + _0x350f26['id'] + '\x22]'), _0x157e14 = productsContainer[_0x15bdc2(0x20a)](_0x15bdc2(0x1ec) + _0x350f26['id'] + '\x22]'); if (_0x5e1ade) _0x5e1ade[_0x15bdc2(_0x2627b8._0x13d18c)]('click', () => updateProductQuantity(_0xb162ca['id'], _0x350f26['id'], -(-0x2193 + -0x178d + 0x3921))); if (_0x157e14) _0x157e14[_0x15bdc2(0x24b)]('click', () => updateProductQuantity(_0xb162ca['id'], _0x350f26['id'], -0xd21 + -0x185 * -0x6 + 0x101 * 0x4)); }), updateOrderSummary(_0xb162ca); } function updateProductQuantity(_0x2f1139, _0x73d53f, _0x30e7ba) { const _0x1e667a = { _0x43266f: 0x1fc, _0x3d61bd: 0x201 }, _0x374007 = _0x67b138, _0x1e36b5 = storesData[_0x374007(_0x1e667a._0x43266f)](_0x246c12 => _0x246c12['id'] === _0x2f1139); if (!_0x1e36b5) return; const _0x3e5bed = carts[_0x2f1139][_0x73d53f] || -0x1a56 + 0x1 * 0x929 + 0x112d * 0x1; let _0x2feca4 = _0x3e5bed + _0x30e7ba; if (_0x2feca4 < -0x18c6 + 0x1 * 0x1351 + 0x575) _0x2feca4 = -0x85b + -0x21a4 + -0x1 * -0x29ff; carts[_0x2f1139][_0x73d53f] = _0x2feca4, saveToLocalStorage(); if (activeStoreId === _0x2f1139) { const _0x1f7daa = storesData['find'](_0x24226c => _0x24226c['id'] === _0x2f1139); if (_0x1f7daa) { const _0x13f582 = productsContainer[_0x374007(0x20a)]('.qty-val[data-id=\x22' + _0x73d53f + '\x22]'); if (_0x13f582) _0x13f582[_0x374007(_0x1e667a._0x3d61bd)] = _0x2feca4; updateOrderSummary(_0x1f7daa); } } } function updateOrderSummary(_0x15467b) { const _0x25b94e = { _0x5be9a5: 0x1dd, _0x24a69b: 0x231, _0x44ac2a: 0x1da, _0xacd7db: 0x24b, _0x1599d5: 0x208 }, _0x2881cd = { _0x1f2ee0: 0x239, _0x4380d8: 0x1e0, _0x793292: 0x268, _0x5d6645: 0x247 }, _0x284a38 = { _0x245d4c: 0x246 }, _0x14e383 = _0x67b138, _0x5c7847 = carts[_0x15467b['id']]; let _0x36fe6d = -0x7 * 0x49a + 0x62 * 0x7 + -0x10e * -0x1c; const _0x9c0fe5 = []; _0x15467b[_0x14e383(0x221)][_0x14e383(0x231)](_0x5e5c9e => { const _0x340924 = _0x14e383, _0x1a555e = _0x5c7847[_0x5e5c9e['id']] || -0x2 * -0xdbe + -0xb * -0xfb + -0x2645; if (_0x1a555e > 0xa5b + 0x139 * -0x5 + 0x3 * -0x16a) { const _0x406dca = _0x5e5c9e[_0x340924(0x246)] * _0x1a555e; _0x36fe6d += _0x406dca; const _0x1ed6e6 = {}; _0x1ed6e6['name'] = _0x5e5c9e['name'], _0x1ed6e6[_0x340924(0x239)] = _0x1a555e, _0x1ed6e6[_0x340924(_0x284a38._0x245d4c)] = _0x5e5c9e[_0x340924(0x246)], _0x1ed6e6[_0x340924(0x1cc)] = _0x406dca, _0x9c0fe5[_0x340924(0x1c7)](_0x1ed6e6); } }); const _0x5e6cff = _0x15467b['deliveryFee'], _0x30a962 = _0x36fe6d + _0x5e6cff; currentGrandTotal = _0x30a962, currentSelectedItems = _0x9c0fe5; let _0x7b25 = _0x14e383(_0x25b94e._0x5be9a5); _0x9c0fe5[_0x14e383(0x218)] === 0x2 * 0xd49 + 0xff7 + -0x1 * 0x2a89 ? _0x7b25 += _0x14e383(0x22b) : _0x9c0fe5[_0x14e383(_0x25b94e._0x24a69b)](_0x1134b0 => { const _0x14c47b = _0x14e383; _0x7b25 += '<div\x20class=\x22summary-row\x22><span>' + _0x1134b0[_0x14c47b(_0x2881cd._0x1f2ee0)] + _0x14c47b(_0x2881cd._0x4380d8) + escapeHtml(_0x1134b0[_0x14c47b(0x23f)]) + _0x14c47b(_0x2881cd._0x793292) + _0x1134b0[_0x14c47b(0x1cc)][_0x14c47b(_0x2881cd._0x5d6645)](0x1cde * -0x1 + -0x11b4 + 0x2e94) + '</span></div>'; }), _0x7b25 += _0x14e383(0x261) + _0x36fe6d[_0x14e383(0x247)](0x70b + 0x1c7c + -0x2385) + '</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22summary-row\x22><span>🚚\x20Delivery\x20fee</span><span>R' + _0x5e6cff['toFixed'](0x1822 + 0xd9d * 0x2 + -0x335a) + '</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22grand-total\x22><span>💰\x20GRAND\x20TOTAL</span><span>R' + _0x30a962[_0x14e383(0x247)](0x1527 + -0x1a * -0xbd + 0x17 * -0x1c1) + '</span></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22button-group\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22clearCartBtn\x22\x20class=\x22clear-cart-btn\x22>🗑️\x20Clear\x20Cart</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22paymentBtn\x22\x20class=\x22payment-btn\x22>💳\x20Payment\x20Details</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20id=\x22whatsappShareBtn\x22\x20class=\x22whatsapp-btn\x22>📲\x20Share\x20on\x20WhatsApp</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20', orderSummaryContainer[_0x14e383(0x1ff)] = _0x7b25, document['getElementById'](_0x14e383(0x215))?.['addEventListener']('click', () => clearCurrentCart()), document[_0x14e383(_0x25b94e._0x44ac2a)](_0x14e383(0x22e))?.[_0x14e383(_0x25b94e._0xacd7db)](_0x14e383(_0x25b94e._0x1599d5), () => openPaymentModal(_0x15467b, _0x9c0fe5, _0x36fe6d, _0x5e6cff, _0x30a962)), document[_0x14e383(0x1da)](_0x14e383(0x22f))?.[_0x14e383(_0x25b94e._0xacd7db)](_0x14e383(0x208), () => shareOrderViaWhatsApp(_0x15467b, _0x9c0fe5, _0x36fe6d, _0x5e6cff, _0x30a962)); } function clearCurrentCart() { const _0x2e13df = { _0x5aa242: 0x1fc, _0x1b2977: 0x231 }, _0x1b98dd = _0x67b138; if (!activeStoreId) return; const _0x4d949f = storesData[_0x1b98dd(_0x2e13df._0x5aa242)](_0x37d169 => _0x37d169['id'] === activeStoreId); _0x4d949f && (_0x4d949f[_0x1b98dd(0x221)][_0x1b98dd(_0x2e13df._0x1b2977)](_0x111f97 => { carts[activeStoreId][_0x111f97['id']] = 0x164d + -0x2 * 0x81e + -0x611; }), saveToLocalStorage(), renderProductsAndCart(_0x4d949f)); } function openPaymentModal(_0x295f28, _0x37cbf0, _0x90d10c, _0x2a045a, _0x3a5892) { const _0x1d37d8 = { _0x35873a: 0x1ff }, _0x4f0739 = _0x67b138, _0x5de511 = document['getElementById'](_0x4f0739(0x1fb)), _0x3a9a01 = document[_0x4f0739(0x1da)](_0x4f0739(0x23c)); _0x3a9a01[_0x4f0739(_0x1d37d8._0x35873a)] = _0x4f0739(0x1f9) + _0x3a5892[_0x4f0739(0x247)](0x114 * 0x13 + 0x1364 + 0x2 * -0x13ef) + '</span></p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h3>Select\x20Payment\x20Method:</h3>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22payment-option\x22\x20onclick=\x22selectPaymentMethod(\x27bank\x27)\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<strong>🏦\x20Banking\x20Details\x20</strong>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p\x20style=\x22font-size:\x2014px;\x20margin-top:\x205px;\x22>Pay\x20using\x20Imediate\x20Payment\x20</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20id=\x22paymentDetails\x22\x20style=\x22margin-top:\x2020px;\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22confirm-payment\x22\x20onclick=\x22confirmPayment(' + _0x3a5892 + _0x4f0739(0x1cb), _0x5de511[_0x4f0739(0x1f1)][_0x4f0739(0x1ed)] = _0x4f0739(0x266), window['selectedPaymentMethod'] = null; } window[_0x67b138(0x259)] = function (_0x3627b1) { const _0x5c1476 = { _0x1c30b6: 0x220, _0x3169b1: 0x1da, _0x5c25f1: 0x1c2, _0x2a4c1e: 0x1f2, _0x142bfb: 0x229, _0xad8f9e: 0x205, _0x2e1d6c: 0x1fe, _0x344496: 0x1ff, _0x5c76bd: 0x1ff, _0x27bb72: 0x219, _0x1b963d: 0x227, _0x83d0b2: 0x26a, _0x5853ed: 0x1ca }, _0x2d3892 = _0x67b138; window[_0x2d3892(_0x5c1476._0x1c30b6)] = _0x3627b1; const _0x351bc0 = document[_0x2d3892(_0x5c1476._0x3169b1)](_0x2d3892(_0x5c1476._0x5c25f1)); if (_0x3627b1 === 'bank') _0x351bc0['innerHTML'] = '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22bank-details\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<strong>Bank\x20Transfer\x20Details:</strong><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Bank:\x20' + BANK_DETAILS['bankName'] + _0x2d3892(0x1d6) + BANK_DETAILS['accountName'] + '<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Account\x20Number:\x20' + BANK_DETAILS[_0x2d3892(_0x5c1476._0x2a4c1e)] + _0x2d3892(_0x5c1476._0x142bfb) + BANK_DETAILS[_0x2d3892(0x233)] + _0x2d3892(_0x5c1476._0xad8f9e) + BANK_DETAILS[_0x2d3892(_0x5c1476._0x2e1d6c)] + '\x20<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p\x20style=\x22margin-top:\x2012px;\x20font-size:\x2014px;\x20color:\x20#666;\x22>\x20Order\x20will\x20be\x20processed\x20after\x20payment\x20received.\x20</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'; else { if (_0x3627b1 === _0x2d3892(0x1f7)) _0x351bc0[_0x2d3892(_0x5c1476._0x344496)] = _0x2d3892(0x1f5) + currentGrandTotal + _0x2d3892(0x211); else _0x3627b1 === _0x2d3892(0x222) && (_0x351bc0[_0x2d3892(_0x5c1476._0x5c76bd)] = _0x2d3892(_0x5c1476._0x27bb72) + Math[_0x2d3892(0x20b)](Math[_0x2d3892(_0x5c1476._0x1b963d)]() * (-0xc2c * 0x1 + -0x1 * 0x7c9 + 0x1d * 0x209)) + '</strong></p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<p>Or\x20pay\x20via\x20banking\x20app\x20to\x20the\x20bank\x20details\x20above.</p>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22copy-btn\x22\x20onclick=\x22copyBankDetails()\x22>📋\x20Copy\x20Bank\x20Details</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'); } document[_0x2d3892(0x25a)](_0x2d3892(0x214))[_0x2d3892(0x231)](_0x1ade53 => _0x1ade53[_0x2d3892(0x26a)]['remove'](_0x2d3892(0x25c))), event[_0x2d3892(0x20d)][_0x2d3892(_0x5c1476._0x83d0b2)][_0x2d3892(_0x5c1476._0x5853ed)]('selected'); }, window[_0x67b138(0x21b)] = function () { const _0x425a00 = { _0x49d815: 0x255, _0xb58d1e: 0x1d2, _0x14d100: 0x233, _0x21d55e: 0x1fe, _0xe9c612: 0x1cf, _0x62e14d: 0x258, _0x394af9: 0x1e6 }, _0x6756b5 = _0x67b138, _0xd3bf2a = _0x6756b5(_0x425a00._0x49d815) + BANK_DETAILS[_0x6756b5(0x209)] + _0x6756b5(_0x425a00._0xb58d1e) + BANK_DETAILS[_0x6756b5(0x1f2)] + '\x0aBranch:\x20' + BANK_DETAILS[_0x6756b5(_0x425a00._0x14d100)] + '\x0aRef:\x20' + BANK_DETAILS[_0x6756b5(_0x425a00._0x21d55e)]; navigator[_0x6756b5(_0x425a00._0xe9c612)][_0x6756b5(_0x425a00._0x62e14d)](_0xd3bf2a), alert(_0x6756b5(_0x425a00._0x394af9)); }, window[_0x67b138(0x224)] = function (_0x4d8ac2) { const _0xd70e7f = { _0x21c18a: 0x244, _0x468776: 0x225 }, _0x170546 = _0x67b138; alert(_0x170546(_0xd70e7f._0x21c18a)), window['open']('https://sandbox.payfast.co.za/eng/process', _0x170546(_0xd70e7f._0x468776)); }, window['confirmPayment'] = function (_0x3716fc) { const _0x346b49 = { _0x2ee940: 0x21f, _0x14331a: 0x267, _0x20024e: 0x220 }, _0x164e5c = _0x67b138; if (!window['selectedPaymentMethod']) { alert('Please\x20select\x20a\x20payment\x20method\x20first'); return; } closePaymentModal(), alert(_0x164e5c(_0x346b49._0x2ee940) + _0x3716fc[_0x164e5c(0x247)](-0x1 * -0xfd1 + 0x39f + 0x67a * -0x3) + _0x164e5c(_0x346b49._0x14331a) + window[_0x164e5c(_0x346b49._0x20024e)]['toUpperCase']() + '!\x0a\x0aPlease\x20share\x20your\x20order\x20via\x20WhatsApp\x20to\x20complete.'); }; function _0x2c5c(_0x257d53, _0x6a1304) { _0x257d53 = _0x257d53 - (-0x18f5 + 0x1ff1 + 0x53c * -0x1); const _0x201261 = _0x1cc2(); let _0x1004bf = _0x201261[_0x257d53]; if (_0x2c5c['IoHOKi'] === undefined) { var _0x5a44e9 = function (_0x55639b) { const _0x27d0bf = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/='; let _0x517266 = '', _0x50427f = ''; for (let _0x4ec321 = 0x18ec + -0x311 * 0x9 + -0x1 * -0x2ad, _0xde6e68, _0x513b72, _0x3cd995 = -0x2ae + -0x16e1 * 0x1 + 0x1 * 0x198f; _0x513b72 = _0x55639b['charAt'](_0x3cd995++); ~_0x513b72 && (_0xde6e68 = _0x4ec321 % (0x1b * -0x9b + 0xf75 + 0xe8) ? _0xde6e68 * (0x1602 + -0x188 + -0x143a) + _0x513b72 : _0x513b72, _0x4ec321++ % (-0x532 * -0x6 + -0xabb + -0x146d)) ? _0x517266 += String['fromCharCode'](0x176c + -0x1e93 + 0xe * 0x95 & _0xde6e68 >> (-(-0x197e + -0x449 * 0x2 + -0x2212 * -0x1) * _0x4ec321 & 0x1144 + -0x203b * 0x1 + -0x1 * -0xefd)) : 0x15f * -0x3 + -0x5 * -0x4a7 + 0x331 * -0x6) { _0x513b72 = _0x27d0bf['indexOf'](_0x513b72); } for (let _0x4ef9b6 = -0x2193 + -0x178d + 0x3920, _0x22ae20 = _0x517266['length']; _0x4ef9b6 < _0x22ae20; _0x4ef9b6++) { _0x50427f += '%' + ('00' + _0x517266['charCodeAt'](_0x4ef9b6)['toString'](-0xd21 + -0x185 * -0x6 + 0x95 * 0x7))['slice'](-(-0x1a56 + 0x1 * 0x929 + 0x112f * 0x1)); } return decodeURIComponent(_0x50427f); }; _0x2c5c['NAxBpz'] = _0x5a44e9, _0x2c5c['NMkLVf'] = {}, _0x2c5c['IoHOKi'] = !![]; } const _0x248552 = _0x201261[-0x18c6 + 0x1 * 0x1351 + 0x575], _0x8604be = _0x257d53 + _0x248552, _0x32f5f3 = _0x2c5c['NMkLVf'][_0x8604be]; return !_0x32f5f3 ? (_0x1004bf = _0x2c5c['NAxBpz'](_0x1004bf), _0x2c5c['NMkLVf'][_0x8604be] = _0x1004bf) : _0x1004bf = _0x32f5f3, _0x1004bf; } function closePaymentModal() { const _0x5856fd = { _0x40dac4: 0x1da, _0x52a44d: 0x1ed }, _0x39686d = _0x67b138; document[_0x39686d(_0x5856fd._0x40dac4)]('paymentModal')['style'][_0x39686d(_0x5856fd._0x52a44d)] = _0x39686d(0x1de); } window[_0x67b138(0x23b)] = closePaymentModal; const YOUR_PHONE_NUMBER = '27761760057'; function shareOrderViaWhatsApp(_0x3a2745, _0x438712, _0x58666c, _0x1746c0, _0x639c7) { const _0x37354e = { _0x1ffa3b: 0x218, _0x330da4: 0x1fa, _0x4fa32d: 0x247, _0x2e4d35: 0x24f, _0xfe34d4: 0x225 }, _0x21c72e = { _0x28707a: 0x23f, _0x30d13e: 0x25f, _0x1da319: 0x1cc }, _0x170211 = _0x67b138; if (_0x438712[_0x170211(_0x37354e._0x1ffa3b)] === 0x1e09 + 0x25c5 + -0x43ce) { alert(_0x170211(0x1c9)); return; } let _0x10ebc5 = ''; _0x438712[_0x170211(0x231)](_0x1e3419 => { const _0x69acad = _0x170211; _0x10ebc5 += '•\x20' + _0x1e3419['qty'] + '\x20x\x20' + _0x1e3419[_0x69acad(_0x21c72e._0x28707a)] + _0x69acad(_0x21c72e._0x30d13e) + _0x1e3419[_0x69acad(_0x21c72e._0x1da319)][_0x69acad(0x247)](-0x1b29 + 0x786 * 0x1 + 0x13a5) + '\x0a'; }); const _0x3bbabf = '🍽️\x20*NEW\x20ORDER\x20from\x20BiteDash*\x20🍽️\x0a\x0a🏪\x20*Store:*\x20' + _0x3a2745[_0x170211(0x23f)] + '\x0a' + _0x10ebc5 + _0x170211(0x1f6) + _0x1746c0['toFixed'](0x2104 + -0xb * -0x295 + 0x3d69 * -0x1) + _0x170211(_0x37354e._0x330da4) + _0x639c7[_0x170211(_0x37354e._0x4fa32d)](0x21d7 + 0x2 * -0x1032 + 0x29 * -0x9) + _0x170211(_0x37354e._0x2e4d35), _0x40a08e = encodeURIComponent(_0x3bbabf); window[_0x170211(0x1f3)](_0x170211(0x1e3) + YOUR_PHONE_NUMBER + _0x170211(0x1c1) + _0x40a08e, _0x170211(_0x37354e._0xfe34d4)); } function backToStores() { const _0x43f100 = { _0x2de431: 0x1ca }, _0x388bee = _0x67b138; activeStoreId = null, saveToLocalStorage(), storesSection['classList']['remove'](_0x388bee(0x264)), orderPanel[_0x388bee(0x26a)][_0x388bee(_0x43f100._0x2de431)](_0x388bee(0x264)); const _0x48e87d = {}; _0x48e87d[_0x388bee(0x1d8)] = 0x0, window[_0x388bee(0x21e)](_0x48e87d); } backToStoresBtn[_0x67b138(0x24b)](_0x67b138(0x208), backToStores); function escapeHtml(_0x1b133f) { const _0x1e259f = { _0x3bef28: 0x269, _0xb30e3f: 0x210, _0x3a8702: 0x212 }, _0x2f317e = _0x67b138; if (!_0x1b133f) return ''; return _0x1b133f[_0x2f317e(0x20c)](/[&<>]/g, function (_0x269ff) { const _0x21fbae = _0x2f317e; if (_0x269ff === '&') return _0x21fbae(_0x1e259f._0x3bef28); if (_0x269ff === '<') return _0x21fbae(_0x1e259f._0xb30e3f); if (_0x269ff === '>') return _0x21fbae(_0x1e259f._0x3a8702); return _0x269ff; }); } loadFromLocalStorage(), renderStores(); if (activeStoreId) { const store = storesData[_0x67b138(0x1fc)](_0x588cf1 => _0x588cf1['id'] === activeStoreId); if (store) setTimeout(() => openStore(activeStoreId), 0x3 * 0xc8f + 0x17f6 + -0x3d99); }
+    </script>
+</body>
+
+</html>
