@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiteDash – Place an Order</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🍔 BiteDash</h1>
+    <nav>
+      <a href="index.html">Order</a>
+      <a href="delivery.html">Delivery Dashboard</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Place Your Order</h2>
+
+      <form id="orderForm">
+        <label for="customerName">Your Name</label>
+        <input type="text" id="customerName" placeholder="e.g. Jane Smith" required />
+
+        <label for="address">Delivery Address</label>
+        <input type="text" id="address" placeholder="e.g. 12 Main St, Smalltown" required />
+
+        <label for="items">Items (one per line)</label>
+        <textarea id="items" placeholder="Cheeseburger&#10;Large fries&#10;Cola" required></textarea>
+
+        <button type="submit">Place Order</button>
+      </form>
+
+      <p class="success-msg" id="successMsg">✅ Order placed! The delivery team has been notified.</p>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const successMsg = document.getElementById('successMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const customerName = document.getElementById('customerName').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const rawItems = document.getElementById('items').value;
+      const items = rawItems.split('\n').map(s => s.trim()).filter(Boolean);
+
+      if (!customerName || !address || items.length === 0) return;
+
+      const res = await fetch('/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerName, address, items }),
+      });
+
+      if (res.ok) {
+        form.reset();
+        successMsg.style.display = 'block';
+        setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+      } else {
+        const data = await res.json();
+        alert('Error: ' + (data.error || 'Could not place order.'));
+      }
+    });
+  </script>
+</body>
+</html>
