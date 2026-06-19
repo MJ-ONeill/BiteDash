@@ -1,0 +1,29 @@
+{
+  "name": "bitedash",
+  "version": "1.0.0",
+  "description": "Simple ordering web-app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MJ-ONeill/BiteDash.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MJ-ONeill/BiteDash/issues"
+  },
+  "homepage": "https://github.com/MJ-ONeill/BiteDash#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
+  }
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiteDash – Delivery Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🛵 BiteDash – Delivery</h1>
+    <nav>
+      <a href="index.html">Order</a>
+      <a href="delivery.html">Delivery Dashboard</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Incoming Orders</h2>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="pending">Pending</button>
+      <button class="filter-btn" data-filter="in-progress">In Progress</button>
+      <button class="filter-btn" data-filter="delivered">Delivered</button>
+    </div>
+
+    <div id="orderList"></div>
+    <p id="empty-msg" style="display:none">No orders found.</p>
+  </main>
+
+  <script>
+    let currentFilter = 'all';
+
+    function badgeClass(status) {
+      if (status === 'pending') return 'badge-pending';
+      if (status === 'in-progress') return 'badge-in-progress';
+      return 'badge-delivered';
+    }
+
+    function renderOrders(orders) {
+      const list = document.getElementById('orderList');
+      const emptyMsg = document.getElementById('empty-msg');
+
+      const filtered = currentFilter === 'all'
+        ? orders
+        : orders.filter(o => o.status === currentFilter);
+
+      if (filtered.length === 0) {
+        list.innerHTML = '';
+        emptyMsg.style.display = 'block';
+        return;
+      }
+
+      emptyMsg.style.display = 'none';
+      list.innerHTML = filtered.map(order => `
+        <div class="order-card" id="order-${order.id}">
+          <h3>#${order.id} – ${escapeHtml(order.customerName)}</h3>
+          <p>📍 ${escapeHtml(order.address)}</p>
+          <p>🧾 ${order.items.map(escapeHtml).join(', ')}</p>
+          <p>🕐 ${new Date(order.createdAt).toLocaleString()}</p>
+          <p><span class="badge ${badgeClass(order.status)}">${order.status}</span></p>
+          <div class="order-actions">
+            <select id="sel-${order.id}">
+              <option value="pending"     ${order.status === 'pending'     ? 'selected' : ''}>Pending</option>
+              <option value="in-progress" ${order.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+              <option value="delivered"   ${order.status === 'delivered'   ? 'selected' : ''}>Delivered</option>
+            </select>
+            <button onclick="updateStatus(${order.id})">Update</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    async function loadOrders() {
+      const res = await fetch('/orders');
+      if (!res.ok) return;
+      const orders = await res.json();
+      renderOrders(orders);
+    }
+
+    async function updateStatus(id) {
+      const sel = document.getElementById(`sel-${id}`);
+      const status = sel.value;
+      const res = await fetch(`/orders/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      if (res.ok) {
+        loadOrders();
+      } else {
+        const data = await res.json();
+        alert('Error: ' + (data.error || 'Could not update order.'));
+      }
+    }
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        loadOrders();
+      });
+    });
+
+    // Auto-refresh every 10 seconds
+    loadOrders();
+    setInterval(loadOrders, 10000);
+  </script>
+</body>
+</html>
